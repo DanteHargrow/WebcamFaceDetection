@@ -35,12 +35,17 @@ namespace WebcamFaceDetection
         }
 
         
-
+        /*
+         * Summary:
+         *  When detect button is clicked a new frame will generate from the video source.
+         *  We'll use the cascade classifier to detect multiscale image,
+         *  Then use a pen to draw a red box over the face.
+         */
         private void Device_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-            Image<Bgr, byte> grayImage = new Image<Bgr, byte>(bitmap);
-            Rectangle[] rectangles = cascadeClassifier.DetectMultiScale(grayImage, 1.2, 1);
+            Image<Bgr, byte> grayImage = new Image<Bgr, byte>(bitmap); //defining an image with Bgr color type and depth of byte
+            Rectangle[] rectangles = cascadeClassifier.DetectMultiScale(grayImage, 1.2, 1);//image,scalefactor, minNeighbors
             foreach (Rectangle rectangle in rectangles)
             {
                 using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -54,6 +59,10 @@ namespace WebcamFaceDetection
             pic.Image = bitmap;
         }
 
+        /*
+         * Summary:
+         *  When the form closes, stop the device
+         */
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (device.IsRunning)
