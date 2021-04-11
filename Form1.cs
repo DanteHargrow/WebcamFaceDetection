@@ -68,5 +68,17 @@ namespace WebcamFaceDetection
             if (device.IsRunning)
                 device.Stop();
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var savedPic = pic.Image;
+            var saveFile = new SaveFileDialog();
+            saveFile.Title = "Save your photo";
+            if(saveFile.ShowDialog() == DialogResult.OK)
+            {
+                savedPic.Save(saveFile.FileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                MessageBox.Show("Image saved");
+            }
+        }
     }
 }
